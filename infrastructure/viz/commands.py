@@ -120,11 +120,15 @@ def main(data_path, outdir=None):
     df = df.merge(map_df, on='script')
     df = df.groupby('benchmark').agg({'nodes': merge_node_counts}).reset_index()
     print("\n'Echo' command occurrences by benchmark:")
+    total_echo = 0
     for _, row in df.iterrows():
         benchmark = row['benchmark']
         nodes = row['nodes']
         echo_count = nodes.get('echo', 0)
         print(f"{benchmark}: {echo_count}")
+        total_echo += echo_count
+
+    print(f"\nTotal 'echo' occurrences across all benchmarks: {total_echo}")
     command_distribution(df, outdir)
     #scripts_using_command_distribution(df, 'benchmark')
 
