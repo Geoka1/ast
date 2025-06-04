@@ -119,7 +119,12 @@ def main(data_path, outdir=None):
     map_df = get_map_df()
     df = df.merge(map_df, on='script')
     df = df.groupby('benchmark').agg({'nodes': merge_node_counts}).reset_index()
-
+    print("\n'Echo' command occurrences by benchmark:")
+    for _, row in df.iterrows():
+        benchmark = row['benchmark']
+        nodes = row['nodes']
+        echo_count = nodes.get('echo', 0)
+        print(f"{benchmark}: {echo_count}")
     command_distribution(df, outdir)
     #scripts_using_command_distribution(df, 'benchmark')
 
